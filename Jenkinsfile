@@ -62,16 +62,14 @@ pipeline {
                 }
            
             }
-            
-        }
-        post {
-            always {
-                mail to: 'ara.fer.mor@gmail.com',
-                subject: "Status of pipeline: ${currentBuild.fullDisplayName}",
-                body: "${env.BUILD_URL} has result ${currentBuild.result}"
+            post {
+                always {
+                    mail to: 'ara.fer.mor@gmail.com',
+                    subject: "Status of pipeline: ${currentBuild.fullDisplayName}",
+                    body: "${env.BUILD_URL} has result ${currentBuild.result}"
+                }
             }
         }
-
 
     }
 }
