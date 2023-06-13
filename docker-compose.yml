@@ -2,7 +2,7 @@ version: '3.7'
 services:
   django-tutorial:
     container_name: django-tutorial
-    image: afermor8/django_tutorial2:${DJANGO_VERSION}
+    image: afermor8/django_tutorial2:${BUILD_NUMBER}
     restart: always
     environment:
       ALLOWED_HOSTS: "*"
