@@ -1,4 +1,4 @@
-FROM python:3fallo
+FROM python:3
 WORKDIR /usr/src/app
 MAINTAINER Arantxa Fernández Morató 'ara.fer.mor@gmail.com'
 RUN pip install --root-user-action=ignore --upgrade pip && pip install --root-user-action=ignore django mysqlclient 
