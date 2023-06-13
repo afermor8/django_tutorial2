@@ -60,7 +60,19 @@ pipeline {
                         sh 'docker rmi $IMAGE_NAME:$BUILD_NUMBER'
                     }
                 }
-           
+                stage('Deploy') {
+                    steps {
+                        script {
+                            sshagent(credentials: ['ssh_jenkins']) {
+                                sh "ssh -o StrictHostKeyChecking=no arantxa@walle.afm-tars.es 'cd /home/arantxa/git/django_tutorial ; sudo docker-compose down'"
+                                sh "ssh -o StrictHostKeyChecking=no arantxa@walle.afm-tars.es sudo docker pull $IMAGE_NAME:$BUILD_NUMBER"
+                                sh "ssh -o StrictHostKeyChecking=no arantxa@walle.afm-tars.es sudo wget https://raw.githubusercontent.com/afermor8/django_tutorial2/master/docker-compose.yml -O docker-compose.yml"
+                                sh "ssh -o StrictHostKeyChecking=no arantxa@walle.afm-tars.es sudo VERSION=$BUILD_NUMBER docker-compose up -d --force-recreate"
+                            }
+                        }
+                    }
+             
+                }
             }
             post {
                 always {
@@ -69,6 +81,7 @@ pipeline {
                     body: "${env.BUILD_URL} has result ${currentBuild.result}"
                 }
             }
+            
         }
 
     }
